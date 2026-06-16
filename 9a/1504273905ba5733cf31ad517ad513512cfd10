@@ -1,0 +1,25 @@
+tests/test_mapa.py
+  s_a37dcbbb80db23::t_b649e65984cada 1-108
+data/mapa.html
+  s_a37dcbbb80db23::t_67269625c42666 1-1590
+docs/GUIA.md
+  s_a37dcbbb80db23::t_b28ead6c29d774 113
+src/visualization/mapa.py
+  s_a37dcbbb80db23::t_4ac9d044eb4675 1-157
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.7",
+  "base_commit_sha": "9a1504273905ba5733cf31ad517ad513512cfd10",
+  "prompts": {},
+  "sessions": {
+    "s_a37dcbbb80db23": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2914c44e-bd15-480e-b2b7-3a9b7998e4a4",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "ostrifezze_meli <oryange.strifezze@mercadolivre.com>"
+    }
+  }
+}
