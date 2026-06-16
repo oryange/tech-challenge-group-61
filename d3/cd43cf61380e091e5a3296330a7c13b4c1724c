@@ -1,0 +1,23 @@
+.gitignore
+  s_a37dcbbb80db23::t_507c3844dde907 26-28
+src/gerar_dados.py
+  s_a37dcbbb80db23::t_dba117c59b4eca 1-173
+docs/GUIA.md
+  s_a37dcbbb80db23::t_87b46e941a7535 108
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.7",
+  "base_commit_sha": "d3cd43cf61380e091e5a3296330a7c13b4c1724c",
+  "prompts": {},
+  "sessions": {
+    "s_a37dcbbb80db23": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2914c44e-bd15-480e-b2b7-3a9b7998e4a4",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "ostrifezze_meli <oryange.strifezze@mercadolivre.com>"
+    }
+  }
+}
