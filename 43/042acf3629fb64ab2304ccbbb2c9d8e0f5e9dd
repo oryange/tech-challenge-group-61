@@ -1,0 +1,21 @@
+src/fitness.py
+  s_a37dcbbb80db23::t_18637e6115bc83 21
+docs/GUIA.md
+  s_a37dcbbb80db23::t_57778375ba07d6 123-133
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.7",
+  "base_commit_sha": "43042acf3629fb64ab2304ccbbb2c9d8e0f5e9dd",
+  "prompts": {},
+  "sessions": {
+    "s_a37dcbbb80db23": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2914c44e-bd15-480e-b2b7-3a9b7998e4a4",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "ostrifezze_meli <oryange.strifezze@mercadolivre.com>"
+    }
+  }
+}
