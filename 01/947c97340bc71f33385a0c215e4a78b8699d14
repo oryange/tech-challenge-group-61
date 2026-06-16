@@ -1,0 +1,27 @@
+docs/GUIA.md
+  s_a37dcbbb80db23::t_386318d4b957c8 108
+tests/test_gerar_dados.py
+  s_a37dcbbb80db23::t_3b776a4d1d9709 1-117
+data/pontos.csv
+  s_a37dcbbb80db23::t_614e9c715528a4 1-32
+src/gerar_dados.py
+  s_a37dcbbb80db23::t_54b19b9ed041e3 49-53,55-56
+  s_a37dcbbb80db23::t_e27a9566490e48 54
+  s_a37dcbbb80db23::t_ad050fc83195ed 60-111
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.7",
+  "base_commit_sha": "01947c97340bc71f33385a0c215e4a78b8699d14",
+  "prompts": {},
+  "sessions": {
+    "s_a37dcbbb80db23": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2914c44e-bd15-480e-b2b7-3a9b7998e4a4",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "ostrifezze_meli <oryange.strifezze@mercadolivre.com>"
+    }
+  }
+}
