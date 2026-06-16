@@ -100,19 +100,21 @@ tech-challenge-fase2/
 
 ## Passo a passo: o quê e onde
 
-| # | Passo | Onde | O que entrega |
-|---|---|---|---|
-| **1** | Criar o repo no GitHub e clonar; configurar ambiente Python | GitHub + máquina | Repo + `pyproject.toml`/`requirements.txt` |
-| **2** | **Gerar dados sintéticos**: ~20–30 pontos com tipo, prioridade, janela de horário, coordenadas | `src/gerar_dados.py` → `data/pontos.csv` | O "banco" |
-| **3** | **Função de fitness**: dada uma rota, calcular a nota (distância + prioridade + janelas + capacidade) | `src/fitness.py` | A regra do jogo |
-| **4** | **Algoritmo genético**: população, seleção, crossover, mutação, gerações | `src/genetico.py` | O coração do projeto |
-| **5** | **3 experimentos**: variar população/taxa de mutação e comparar | `notebooks/experimentos.ipynb` | Recomendado (é exigência do Projeto 1; fortalece o relatório) |
-| **6** | **Comparativo vs. outra abordagem**: GA contra baseline (vizinho mais próximo e/ou OR-tools) | `notebooks/experimentos.ipynb` | **Exigência obrigatória do relatório** |
-| **7** | **Visualização no mapa**: desenhar a melhor rota colorida por tipo | `src/mapa.py` | Exigência obrigatória |
-| **8** | **Integração LLM**: rota → LLM gera manual + roteiro + responde perguntas | `src/llm.py` | Exigência obrigatória |
-| **9** | **App Streamlit**: mapa + botão otimizar + chat | `app.py` | Recurso extra (recomendado) |
-| **10** | **Testes** automatizados | `tests/` | Exigência |
-| **11** | **Relatório técnico + vídeo** (≤ 10 min) | `docs/` + YouTube/Vimeo | Entregáveis finais |
+> **Status:** ⬜ pendente · 🟡 em andamento · ✅ feito — edite o emoji conforme avançarem.
+
+| # | Status | Passo | Onde | O que entrega |
+|---|---|---|---|---|
+| **1** | ✅ | Criar o repo no GitHub e clonar; configurar ambiente Python | GitHub + máquina | Repo + `pyproject.toml`/`requirements.txt` |
+| **2** | ⬜ | **Gerar dados sintéticos**: ~20–30 pontos com tipo, prioridade, janela de horário, coordenadas | `src/gerar_dados.py` → `data/pontos.csv` | O "banco" |
+| **3** | ⬜ | **Função de fitness**: dada uma rota, calcular a nota (distância + prioridade + janelas + capacidade) | `src/fitness.py` | A regra do jogo |
+| **4** | ⬜ | **Algoritmo genético**: população, seleção, crossover, mutação, gerações | `src/genetico.py` | O coração do projeto |
+| **5** | ⬜ | **3 experimentos**: variar população/taxa de mutação e comparar | `notebooks/experimentos.ipynb` | Recomendado (é exigência do Projeto 1; fortalece o relatório) |
+| **6** | ⬜ | **Comparativo vs. outra abordagem**: GA contra baseline (vizinho mais próximo e/ou OR-tools) | `notebooks/experimentos.ipynb` | **Exigência obrigatória do relatório** |
+| **7** | ⬜ | **Visualização no mapa**: desenhar a melhor rota colorida por tipo | `src/mapa.py` | Exigência obrigatória |
+| **8** | ⬜ | **Integração LLM**: rota → LLM gera manual + roteiro + responde perguntas | `src/llm.py` | Exigência obrigatória |
+| **9** | ⬜ | **App Streamlit**: mapa + botão otimizar + chat | `app.py` | Recurso extra (recomendado) |
+| **10** | ⬜ | **Testes** automatizados | `tests/` | Exigência |
+| **11** | ⬜ | **Relatório técnico + vídeo** (≤ 10 min) | `docs/` + YouTube/Vimeo | Entregáveis finais |
 
 **Divisão sugerida na dupla:** uma pessoa nos passos **2–5** (dados + algoritmo genético, parte mais pesada); a outra nos passos **6–8** (mapa + LLM + app). Passos **9–10** as duas juntas no fim.
 
