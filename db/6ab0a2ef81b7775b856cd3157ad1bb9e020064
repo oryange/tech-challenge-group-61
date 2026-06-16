@@ -1,0 +1,20 @@
+docs/GUIA.md
+  s_a37dcbbb80db23::t_bbc83fd94b84c4 103-106,108-117
+  s_a37dcbbb80db23::t_e887ed6faf9191 107
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.7",
+  "base_commit_sha": "db6ab0a2ef81b7775b856cd3157ad1bb9e020064",
+  "prompts": {},
+  "sessions": {
+    "s_a37dcbbb80db23": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2914c44e-bd15-480e-b2b7-3a9b7998e4a4",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "ostrifezze_meli <oryange.strifezze@mercadolivre.com>"
+    }
+  }
+}
