@@ -106,7 +106,7 @@ tech-challenge-fase2/
 |---|---|---|---|---|
 | **1** | ✅ | Criar o repo no GitHub e clonar; configurar ambiente Python | GitHub + máquina | Repo + `pyproject.toml`/`requirements.txt` |
 | **2** | ✅ | **Gerar dados sintéticos**: ~20–30 pontos com tipo, prioridade, janela de horário, coordenadas | `src/gerar_dados.py` → `data/pontos.csv` | O "banco" |
-| **3** | ⬜ | **Função de fitness**: dada uma rota, calcular a nota (distância + prioridade + janelas + capacidade) | `src/fitness.py` | A regra do jogo |
+| **3** | ✅ | **Função de fitness**: dada uma rota, calcular a nota (distância + prioridade + janelas + capacidade) | `src/fitness.py` | A regra do jogo |
 | **4** | ⬜ | **Algoritmo genético**: população, seleção, crossover, mutação, gerações | `src/genetico.py` | O coração do projeto |
 | **5** | ⬜ | **3 experimentos**: variar população/taxa de mutação e comparar | `notebooks/experimentos.ipynb` | Recomendado (é exigência do Projeto 1; fortalece o relatório) |
 | **6** | ⬜ | **Comparativo vs. outra abordagem**: GA contra baseline (vizinho mais próximo e/ou OR-tools) | `notebooks/experimentos.ipynb` | **Exigência obrigatória do relatório** |
