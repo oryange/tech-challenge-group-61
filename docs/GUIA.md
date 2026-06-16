@@ -37,7 +37,9 @@ O número de combinações possíveis é astronômico — força bruta é imposs
 
 Você não programa "a solução", você programa o **processo de evolução**.
 
-### Onde entra a LLM (Claude/GPT)
+### Onde entra a LLM (Hugging Face local)
+> Decisão da dupla: usamos uma **LLM local open-source (Hugging Face / `transformers`)**, não API paga (Claude/GPT). Roda na máquina, sem chave nem custo — ver seção *Ferramentas*.
+
 O algoritmo cospe algo cru: `[Parada 4 → Parada 1 → Parada 7 → ...]`. A LLM transforma isso em algo usável por humanos:
 - **Roteiro do dia** legível para a equipe de transporte.
 - **Relatório** (nº de paradas, emergências, economia de tempo).
