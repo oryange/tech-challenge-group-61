@@ -120,6 +120,17 @@ tech-challenge-fase2/
 
 ---
 
+## Melhorias pendentes (aguardando código base de TSP)
+
+Decidimos esperar o código base da disciplina antes de finalizar a fitness e o AG,
+para alinhar a estrutura e evitar retrabalho. Pendências registradas:
+
+- [ ] **VRP múltiplos veículos** — a fitness atual (`src/fitness.py`) pontua **1 rota / 1 veículo**. O enunciado pede frota (vários veículos). Reestruturar para pontuar um *conjunto* de rotas. *Obs.: demanda total (~41,6 kg) já excede a capacidade do veículo padrão (20 kg), então a frota é necessária.*
+- [ ] **Bug da janela da emergência** — emergência obstétrica tem janela `0h–1h` nos dados, mas a `calcular_penalidade_janela` começa o relógio às 8h → toda emergência é punida como "atrasada" sempre. Isentar emergências da penalidade de janela (são "atendimento imediato, qualquer hora") ou recodificar a janela como o dia inteiro.
+- [ ] **Matriz de distâncias pré-computada** — o AG chamará a fitness milhões de vezes; hoje cada chamada refaz `set_index` e recalcula Haversine repetidamente. Pré-computar matriz N×N uma vez (ganho grande de performance — critério de avaliação).
+
+---
+
 ## Requisitos obrigatórios do Projeto 2 (checklist)
 
 - [ ] Partir do **código base de TSP** fornecido no GitHub da disciplina e evoluir para **VRP**.

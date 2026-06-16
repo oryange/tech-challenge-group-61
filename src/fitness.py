@@ -18,7 +18,7 @@ Cada componente captura uma restrição real do problema hospitalar:
 
 import math
 import pandas as pd
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import List
 
 
