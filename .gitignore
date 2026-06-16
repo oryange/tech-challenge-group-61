@@ -1,0 +1,25 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Environment variables (API keys — nunca commitar)
+.env
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# macOS
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+
+# Test cache
+.pytest_cache/
