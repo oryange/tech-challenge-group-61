@@ -106,7 +106,7 @@ tech-challenge-fase2/
 |---|---|---|---|---|
 | **1** | ✅ | Criar o repo no GitHub e clonar; configurar ambiente Python | GitHub + máquina | Repo + `pyproject.toml`/`requirements.txt` |
 | **2** | ✅ | **Gerar dados sintéticos**: ~20–30 pontos com tipo, prioridade, janela de horário, coordenadas | `src/gerar_dados.py` → `data/pontos.csv` | O "banco" |
-| **3** | ⬜ | **Função de fitness**: dada uma rota, calcular a nota (distância + prioridade + janelas + capacidade) | `src/fitness.py` | A regra do jogo |
+| **3** | ✅ | **Função de fitness**: dada uma rota, calcular a nota (distância + prioridade + janelas + capacidade) | `src/fitness.py` | A regra do jogo |
 | **4** | ⬜ | **Algoritmo genético**: população, seleção, crossover, mutação, gerações | `src/genetico.py` | O coração do projeto |
 | **5** | ⬜ | **3 experimentos**: variar população/taxa de mutação e comparar | `notebooks/experimentos.ipynb` | Recomendado (é exigência do Projeto 1; fortalece o relatório) |
 | **6** | ⬜ | **Comparativo vs. outra abordagem**: GA contra baseline (vizinho mais próximo e/ou OR-tools) | `notebooks/experimentos.ipynb` | **Exigência obrigatória do relatório** |
@@ -117,6 +117,17 @@ tech-challenge-fase2/
 | **11** | ⬜ | **Relatório técnico + vídeo** (≤ 10 min) | `docs/` + YouTube/Vimeo | Entregáveis finais |
 
 **Divisão sugerida na dupla:** uma pessoa nos passos **2–5** (dados + algoritmo genético, parte mais pesada); a outra nos passos **6–8** (mapa + LLM + app). Passos **9–10** as duas juntas no fim.
+
+---
+
+## Melhorias pendentes (aguardando código base de TSP)
+
+Decidimos esperar o código base da disciplina antes de finalizar a fitness e o AG,
+para alinhar a estrutura e evitar retrabalho. Pendências registradas:
+
+- [ ] **VRP múltiplos veículos** — a fitness atual (`src/fitness.py`) pontua **1 rota / 1 veículo**. O enunciado pede frota (vários veículos). Reestruturar para pontuar um *conjunto* de rotas. *Obs.: demanda total (~41,6 kg) já excede a capacidade do veículo padrão (20 kg), então a frota é necessária.*
+- [ ] **Bug da janela da emergência** — emergência obstétrica tem janela `0h–1h` nos dados, mas a `calcular_penalidade_janela` começa o relógio às 8h → toda emergência é punida como "atrasada" sempre. Isentar emergências da penalidade de janela (são "atendimento imediato, qualquer hora") ou recodificar a janela como o dia inteiro.
+- [ ] **Matriz de distâncias pré-computada** — o AG chamará a fitness milhões de vezes; hoje cada chamada refaz `set_index` e recalcula Haversine repetidamente. Pré-computar matriz N×N uma vez (ganho grande de performance — critério de avaliação).
 
 ---
 
