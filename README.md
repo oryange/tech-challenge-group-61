@@ -97,6 +97,39 @@ docker run -p 8888:8888 -v $(pwd):/app tech-challenge-grupo61
 
 ---
 
+## Uso
+
+Os comandos abaixo devem ser executados a partir da raiz do projeto, com o
+ambiente virtual ativo (`source .venv/bin/activate`).
+
+### Gerar os dados sintéticos
+
+Cria os pontos de atendimento (depósito + 30 pontos) em `data/pontos.csv`:
+
+```bash
+python src/gerar_dados.py
+```
+
+### Gerar o mapa das rotas
+
+Gera `data/mapa.html` — um mapa interativo com os pontos coloridos por tipo de
+atendimento. Abra o arquivo no navegador para visualizar:
+
+```bash
+python src/visualization/mapa.py
+```
+
+> O `data/mapa.html` já vem versionado no repositório, então é possível abri-lo
+> direto sem gerar novamente.
+
+### Rodar os testes
+
+```bash
+python -m pytest tests/ -v
+```
+
+---
+
 ## Troubleshooting
 
 | Sintoma | Causa provável | Solução |
