@@ -1,0 +1,23 @@
+tests/test_llm.py
+  s_3a5700083c3fe0::t_538dd2a76f227f 251
+src/llm/gerador.py
+  s_3a5700083c3fe0::t_0e2bfc741c3c1f 86-96
+  s_3a5700083c3fe0::t_cb0883e3c0726c 146-161,164,174,176-177,188,209
+  s_3a5700083c3fe0::t_d3a1de2a9e608d 112
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "c15b1eab657677a10b33025d890a8a2630648ab6",
+  "prompts": {},
+  "sessions": {
+    "s_3a5700083c3fe0": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "526f448e-0ed0-447a-aab3-849bdc9b38c3",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "lanunes_meli <larissa.nunes@mercadolivre.com>"
+    }
+  }
+}
