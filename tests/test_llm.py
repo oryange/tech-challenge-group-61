@@ -248,7 +248,7 @@ def test_todos_os_protocolos_tem_instrucao(df_completo):
 @pytest.mark.integration
 def test_integracao_real_gerar_roteiro(df_rota):
     """
-    Roda o modelo real (flan-t5-base). Requer download do modelo.
+    Roda o modelo real (flan-t5-large). Requer download (~3 GB).
     Execute com: pytest -m integration tests/test_llm.py
     """
     resultado = gerar_roteiro(df_rota.head(2))
