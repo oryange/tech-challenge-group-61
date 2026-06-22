@@ -1,0 +1,29 @@
+requirements.txt
+  s_c1513ba333987d::t_9dc57c8563f325 26-28
+tests/test_genetico.py
+  s_c1513ba333987d::t_1e29e55bd66d1d 1-255
+src/genetic_algorithm/vrp.py
+  s_c1513ba333987d::t_27fa7585fc6320 1-353
+app.py
+  s_c1513ba333987d::t_5d2a4340c53c92 1-333
+notebooks/experimentos.ipynb
+  s_c1513ba333987d::t_68248db6073780 1-449
+src/genetic_algorithm/__init__.py
+  s_c1513ba333987d::t_f0fb9c53099d92 1-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.9",
+  "base_commit_sha": "713fb56b2e7954ae41cd5ceec141b2723b78e416",
+  "prompts": {},
+  "sessions": {
+    "s_c1513ba333987d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "898798aa-88b0-4e11-ae7e-1340d18c9115",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "lanunes_meli <larissa.nunes@mercadolivre.com>"
+    }
+  }
+}
