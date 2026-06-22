@@ -83,10 +83,17 @@ def _carregar_modelo(nome_modelo: str):
     Na primeira execução baixa o modelo do Hugging Face Hub e cacheia em
     ~/.cache/huggingface — execuções subsequentes usam o cache local.
     """
-    from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-    tok = AutoTokenizer.from_pretrained(nome_modelo)
-    model = AutoModelForSeq2SeqLM.from_pretrained(nome_modelo)
-    return tok, model
+    try:
+        from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+        tok = AutoTokenizer.from_pretrained(nome_modelo)
+        model = AutoModelForSeq2SeqLM.from_pretrained(nome_modelo)
+        return tok, model
+    except Exception as e:
+        raise RuntimeError(
+            f"Falha ao carregar '{nome_modelo}'. "
+            f"Na primeira execução é necessário conexão com a internet.\n"
+            f"Detalhe: {e}"
+        ) from e
 
 
 def _gerar_texto(prompt: str, max_tokens: int = 120,
@@ -102,7 +109,7 @@ def _gerar_texto(prompt: str, max_tokens: int = 120,
         max_new_tokens=max_tokens,
         num_beams=4,           # beam search melhora coerência
         early_stopping=True,
-        repetition_penalty=2.5,  # evita loops de repetição ("no sabem que no sabem...")
+        repetition_penalty=1.3,  # evita loops de repetição sem distorcer o output
         no_repeat_ngram_size=3,  # bloqueia repetição de trigramas
     )
     return tok.decode(saida[0], skip_special_tokens=True).strip()
@@ -136,8 +143,25 @@ def _sanitizar_pergunta(texto: str) -> str:
 # Funções principais
 # ---------------------------------------------------------------------------
 
+# Cache de dicas por (rotulo, protocolo) — evita N chamadas LLM para o mesmo tipo
+_dica_cache: dict = {}
+
+
+def _dica_para_tipo(rotulo: str, protocolo: str, modelo: str) -> str:
+    chave = (rotulo, protocolo, modelo)
+    if chave not in _dica_cache:
+        prompt = (
+            f"Generate a one-sentence practical tip in Portuguese for a "
+            f"medical delivery team visiting a {rotulo} patient "
+            f"({protocolo} protocol):"
+        )
+        _dica_cache[chave] = _gerar_texto(prompt, max_tokens=60, modelo=modelo)
+    return _dica_cache[chave]
+
+
 def gerar_roteiro(df_rota: pd.DataFrame,
                   velocidade_kmh: float = 40.0,
+                  hora_inicio: float = 8.0,
                   modelo: str = _MODELO_PADRAO) -> str:
     """
     Gera o roteiro detalhado da rota em linguagem natural.
@@ -147,9 +171,10 @@ def gerar_roteiro(df_rota: pd.DataFrame,
     contextual curta.
 
     Args:
-        df_rota:       DataFrame dos pontos na ordem de visita (sem depósito).
+        df_rota:        DataFrame dos pontos na ordem de visita (sem depósito).
         velocidade_kmh: velocidade média para estimar tempo de deslocamento.
-        modelo:        modelo Hugging Face a usar.
+        hora_inicio:    horário de início do expediente (padrão: 8.0 = 08h00).
+        modelo:         modelo Hugging Face a usar.
 
     Returns:
         String com o roteiro completo.
@@ -160,7 +185,7 @@ def gerar_roteiro(df_rota: pd.DataFrame,
     from src.utils import haversine
 
     linhas = ["=== ROTEIRO DO DIA ===\n"]
-    hora = 8.0  # início do expediente
+    hora = hora_inicio
     lat_ant, lon_ant = None, None
 
     for posicao, (_, ponto) in enumerate(df_rota.iterrows(), start=1):
@@ -181,13 +206,7 @@ def gerar_roteiro(df_rota: pd.DataFrame,
 
         hora_str = f"{int(hora):02d}h{int((hora % 1) * 60):02d}"
 
-        # LLM gera observação curta e contextual para cada parada
-        prompt = (
-            f"Generate a one-sentence practical tip in Portuguese for a "
-            f"medical delivery team visiting a {rotulo} patient "
-            f"({protocolo} protocol):"
-        )
-        dica = _gerar_texto(prompt, max_tokens=60, modelo=modelo)
+        dica = _dica_para_tipo(rotulo, protocolo, modelo)
 
         linhas.append(
             f"Parada {posicao:02d} — {hora_str} | {rotulo}\n"
@@ -364,8 +383,6 @@ def gerar_relatorio_resumo(df_rota: pd.DataFrame,
 
 
 if __name__ == "__main__":
-    import pandas as pd
-
     df = pd.read_csv("data/pontos.csv")
     rota = df[df["tipo"] != "deposito"].head(5)
 
