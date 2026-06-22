@@ -122,6 +122,19 @@ python src/visualization/mapa.py
 > O `data/mapa.html` já vem versionado no repositório, então é possível abri-lo
 > direto sem gerar novamente.
 
+### Gerar instruções e relatórios com a LLM
+
+Roda a LLM local (Hugging Face) e exibe roteiro, manual, chat e relatório
+de eficiência para uma rota de exemplo:
+
+```bash
+python src/llm/gerador.py
+```
+
+> Na primeira execução o modelo `flan-t5-large` (~3 GB) é baixado
+> automaticamente e fica em cache (`~/.cache/huggingface`). As execuções
+> seguintes carregam do cache local — sem internet e sem custo.
+
 ### Rodar os testes
 
 ```bash

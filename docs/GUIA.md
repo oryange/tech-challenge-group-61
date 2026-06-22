@@ -111,7 +111,7 @@ tech-challenge-fase2/
 | **5** | ⬜ | **3 experimentos**: variar população/taxa de mutação e comparar | `notebooks/experimentos.ipynb` | Recomendado (é exigência do Projeto 1; fortalece o relatório) |
 | **6** | ⬜ | **Comparativo vs. outra abordagem**: GA contra baseline (vizinho mais próximo e/ou OR-tools) | `notebooks/experimentos.ipynb` | **Exigência obrigatória do relatório** |
 | **7** | ✅ | **Visualização no mapa**: desenhar a melhor rota colorida por tipo | `src/visualization/mapa.py` | Exigência obrigatória |
-| **8** | ⬜ | **Integração LLM**: rota → LLM gera manual + roteiro + responde perguntas | `src/llm.py` | Exigência obrigatória |
+| **8** | ✅ | **Integração LLM**: rota → LLM gera manual + roteiro + responde perguntas | `src/llm/gerador.py` | Exigência obrigatória |
 | **9** | ⬜ | **App Streamlit**: mapa + botão otimizar + chat | `app.py` | Recurso extra (recomendado) |
 | **10** | ⬜ | **Testes** automatizados | `tests/` | Exigência |
 | **11** | ⬜ | **Relatório técnico + vídeo** (≤ 10 min) | `docs/` + YouTube/Vimeo | Entregáveis finais |
