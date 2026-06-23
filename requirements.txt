@@ -23,6 +23,9 @@ networkx==3.6.1
 # Interactive visualization
 plotly==6.7.0
 
+# Web interface
+streamlit==1.46.0
+
 # Testing
 pytest==9.0.3
 

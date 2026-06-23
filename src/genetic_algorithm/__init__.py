@@ -1,0 +1,31 @@
+from .vrp import (
+    ConfigGA,
+    CONFIG_PADRAO,
+    ResultadoGA,
+    Cromossomo,
+    Populacao,
+    gerar_populacao,
+    cromossomo_para_rotas,
+    fitness_vrp,
+    crossover_ox,
+    mutacao_swap,
+    mutacao_inversao,
+    selecao_torneio,
+    evoluir,
+)
+
+__all__ = [
+    "ConfigGA",
+    "CONFIG_PADRAO",
+    "ResultadoGA",
+    "Cromossomo",
+    "Populacao",
+    "gerar_populacao",
+    "cromossomo_para_rotas",
+    "fitness_vrp",
+    "crossover_ox",
+    "mutacao_swap",
+    "mutacao_inversao",
+    "selecao_torneio",
+    "evoluir",
+]
