@@ -1,0 +1,27 @@
+notebooks/experimentos.ipynb
+  s_c1513ba333987d::t_173b880a34bf35 474-608
+docs/arquitetura.md
+  s_c1513ba333987d::t_3d9e300c689bdb 1-95
+src/genetic_algorithm/__init__.py
+  s_c1513ba333987d::t_2f9a4f539e5ac8 16,32-34
+src/genetic_algorithm/baselines.py
+  s_c1513ba333987d::t_48d15ac3e2dcb4 1-165
+docs/relatorio-tecnico.md
+  s_c1513ba333987d::t_bb700b057f0d75 1-255
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.9",
+  "base_commit_sha": "fcb5e31017edd8127b7920d9b185d358f1e5ffd7",
+  "prompts": {},
+  "sessions": {
+    "s_c1513ba333987d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "898798aa-88b0-4e11-ae7e-1340d18c9115",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "lanunes_meli <larissa.nunes@mercadolivre.com>"
+    }
+  }
+}
