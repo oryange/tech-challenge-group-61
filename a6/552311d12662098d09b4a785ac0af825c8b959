@@ -1,0 +1,20 @@
+docs/relatorio-tecnico.md
+  s_c1513ba333987d::t_0a5d65f4b10453 182,186-188,198,201-208,211-219,222
+  s_c1513ba333987d::t_f2d30f954ef92b 269
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "a6552311d12662098d09b4a785ac0af825c8b959",
+  "prompts": {},
+  "sessions": {
+    "s_c1513ba333987d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "898798aa-88b0-4e11-ae7e-1340d18c9115",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Larissa Nunes <68084395+Larissa-Nunes@users.noreply.github.com>"
+    }
+  }
+}
