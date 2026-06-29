@@ -219,7 +219,24 @@ Pop 200 produz a melhor solução (+1.5 pp sobre Pop 100) ao custo de 2× mais t
 Resultado surpreendente: a mutação alta (swap=0.60 + inversão=0.30) produziu o melhor fitness (2602.51), contrariando parcialmente a hipótese inicial. A maior diversidade permitiu escapar de ótimos locais neste espaço de busca de 30 pontos. Por outro lado, elevar apenas a inversão (inv. forte) piorou os resultados — inversão excessiva desfaz sub-rotas já bem organizadas. A taxa baixa confirmou a hipótese de convergência prematura.
 
 **Experimento 3 — Restrições de negócio:**
-Varia o número de veículos (2 vs. 3) e os pesos da fitness (prioridade máxima, veículo lento). Demonstra que aumentar o peso de prioridade força emergências para o início da rota, e que frota reduzida aumenta o fitness total pela sobrecarga de capacidade. Resultados completos no notebook.
+
+| Cenário | Fitness final | Melhora | Tempo |
+|---|---|---|---|
+| A: Baseline (3v, 40km/h, w_prior=50)   | 2755.71  | 34.5% | 142s |
+| B: Prioridade máx. (w_prior=250)       | 7165.04  | 23.8% | 140s |
+| C: Frota reduzida (2 veículos)         | 4273.53  | 68.6% | 124s |
+| D: Veículo lento (20km/h, w_jan=150)   | 12116.01 | 38.8% | 138s |
+
+Análise da posição média das emergências obstétricas na rota principal:
+
+| Cenário | Posição média emergências |
+|---|---|
+| A: Baseline         | 0.0 / 11 paradas — sempre primeiro |
+| B: Prioridade máx.  | 0.0 / 10 paradas — sempre primeiro |
+| C: Frota reduzida   | 10.0 / 14 paradas — postergadas pela restrição de capacidade |
+| D: Veículo lento    | sem emergências na rota principal |
+
+Os cenários A e B colocam emergências na posição 0 (início absoluto da rota), confirmando que o GA aprende a respeitar a prioridade mesmo com pesos diferentes. O fitness absoluto do cenário B é maior porque penalidades de posição passam a valer 250× em vez de 50×, mas operacionalmente o resultado é equivalente. O cenário C ilustra o conflito entre restrições: com apenas 2 veículos, a capacidade limitada empurra emergências para posições tardias — demonstrando que aumentar a frota é essencial em contextos de alta demanda urgente.
 
 ---
 
