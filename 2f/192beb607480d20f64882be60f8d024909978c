@@ -1,0 +1,21 @@
+src/genetic_algorithm/baselines.py
+  s_c1513ba333987d::t_31a68aad7f7728 99-101,103-109
+tests/test_baselines.py
+  s_c1513ba333987d::t_9df79c923c4ea3 1-140
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "2f192beb607480d20f64882be60f8d024909978c",
+  "prompts": {},
+  "sessions": {
+    "s_c1513ba333987d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "898798aa-88b0-4e11-ae7e-1340d18c9115",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "lanunes_meli <larissa.nunes@mercadolivre.com>"
+    }
+  }
+}
