@@ -179,13 +179,13 @@ Funções disponíveis:
 
 ## 7. Comparativo de Desempenho
 
-Comparamos o GA com dois baselines clássicos usando os mesmos dados (30 pontos, 3 veículos, seed 42):
+Comparamos o GA com dois baselines clássicos usando os mesmos dados (30 pontos, 3 veículos, seed 42). Resultados extraídos do notebook executado (`notebooks/experimentos.ipynb`):
 
 | Abordagem | Fitness | Melhora vs GA | Tempo |
 |---|---|---|---|
-| Rota aleatória | ~6.790 | GA 58% melhor | < 0,01s |
-| Vizinho mais próximo (greedy) | ~4.677 | GA 39% melhor | < 0,01s |
-| **Algoritmo Genético** (pop=100, 150 ger.) | **~2.845** | referência | ~15s |
+| Rota aleatória | 6.790 | GA 59% melhor | < 0,01s |
+| Vizinho mais próximo (greedy) | 4.677 | GA 41% melhor | < 0,01s |
+| **Algoritmo Genético** (pop=100, 150 ger.) | **2.755** | referência | ~138s |
 
 O **vizinho mais próximo** é a abordagem gulosa clássica para TSP/VRP: rápido e determinístico, mas toma decisões localmente ótimas que podem ser globalmente ruins (ex: visitar um ponto próximo de baixa prioridade antes de uma emergência distante). O GA, ao explorar o espaço global de soluções via evolução, encontra ordenações que o greedy não consegue.
 
@@ -195,16 +195,31 @@ O gráfico de convergência (notebook `experimentos.ipynb`) mostra o GA partindo
 
 ## 8. Experimentos
 
-Realizamos 3 experimentos variando configurações do GA (detalhes e gráficos no notebook `notebooks/experimentos.ipynb`):
+Realizamos 3 experimentos variando configurações do GA. Resultados completos com gráficos no notebook `notebooks/experimentos.ipynb`.
 
 **Experimento 1 — Tamanho da população (50 / 100 / 200):**
-Avalia o trade-off qualidade × tempo de execução. Populações maiores exploram melhor o espaço de busca mas aumentam o custo computacional.
+
+| Configuração | Fitness final | Melhora | Tempo |
+|---|---|---|---|
+| Pop = 50  | 2811.65 | 33.1% | 70s  |
+| Pop = 100 | 2755.71 | 34.5% | 138s |
+| Pop = 200 | 2666.80 | 36.6% | 276s |
+
+Pop 200 produz a melhor solução (+1.5 pp sobre Pop 100) ao custo de 2× mais tempo. Para uso interativo no app Streamlit, Pop 100 oferece o melhor equilíbrio qualidade × tempo. Pop 50 converge mais rápido mas fica preso em ótimos locais com mais frequência.
 
 **Experimento 2 — Taxas de mutação:**
-Compara mutação baixa (0.05), padrão (0.30/0.10) e alta (0.60/0.30). Taxa baixa converge prematuramente; alta demais destrói boas soluções. A configuração padrão mostrou o melhor equilíbrio.
+
+| Configuração | Fitness final | Melhora | Tempo |
+|---|---|---|---|
+| Swap=0.05 Inv=0.00 (baixa)       | 2822.84 | 32.9% | 139s |
+| Swap=0.30 Inv=0.10 (padrão)      | 2755.71 | 34.5% | 138s |
+| Swap=0.60 Inv=0.30 (alta)        | **2602.51** | **38.1%** | 138s |
+| Swap=0.30 Inv=0.30 (inv. forte)  | 2899.57 | 31.0% | 138s |
+
+Resultado surpreendente: a mutação alta (swap=0.60 + inversão=0.30) produziu o melhor fitness (2602.51), contrariando parcialmente a hipótese inicial. A maior diversidade permitiu escapar de ótimos locais neste espaço de busca de 30 pontos. Por outro lado, elevar apenas a inversão (inv. forte) piorou os resultados — inversão excessiva desfaz sub-rotas já bem organizadas. A taxa baixa confirmou a hipótese de convergência prematura.
 
 **Experimento 3 — Restrições de negócio:**
-Varia o número de veículos (2 vs. 3) e os pesos da fitness (prioridade máxima, veículo lento). Demonstra que aumentar o peso de prioridade força emergências para o início da rota, e que frota reduzida aumenta o fitness total pela sobrecarga de capacidade.
+Varia o número de veículos (2 vs. 3) e os pesos da fitness (prioridade máxima, veículo lento). Demonstra que aumentar o peso de prioridade força emergências para o início da rota, e que frota reduzida aumenta o fitness total pela sobrecarga de capacidade. Resultados completos no notebook.
 
 ---
 
@@ -251,5 +266,5 @@ tech-challenge-group-61/
 ```
 
 **Ambiente:** Python 3.12, venv, dependências em `requirements.txt`.  
-**Testes:** `pytest tests/ -v` — 71 testes cobrindo todos os módulos.  
+**Testes:** `pytest tests/ -v` — 110 testes cobrindo todos os módulos.  
 **App:** `streamlit run app.py` (instalar streamlit do PyPI público).
