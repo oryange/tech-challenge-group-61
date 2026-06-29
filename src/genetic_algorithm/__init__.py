@@ -13,6 +13,7 @@ from .vrp import (
     selecao_torneio,
     evoluir,
 )
+from .baselines import ResultadoBaseline, rota_aleatoria, vizinho_mais_proximo
 
 __all__ = [
     "ConfigGA",
@@ -28,4 +29,7 @@ __all__ = [
     "mutacao_inversao",
     "selecao_torneio",
     "evoluir",
+    "ResultadoBaseline",
+    "rota_aleatoria",
+    "vizinho_mais_proximo",
 ]
