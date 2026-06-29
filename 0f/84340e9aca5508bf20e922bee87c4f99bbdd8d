@@ -1,0 +1,19 @@
+notebooks/experimentos.ipynb
+  s_c1513ba333987d::t_8cadd1178e5b26 170-172,246,254,262,270-272,316,323-327,365,367-461,503,505-517,561,563-657,665,667-680,736,738-819,838,840-851,892,894-909,943,945-956,998,1000-1081
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "0f84340e9aca5508bf20e922bee87c4f99bbdd8d",
+  "prompts": {},
+  "sessions": {
+    "s_c1513ba333987d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "898798aa-88b0-4e11-ae7e-1340d18c9115",
+        "model": "unknown"
+      },
+      "human_author": "Larissa Nunes <68084395+Larissa-Nunes@users.noreply.github.com>"
+    }
+  }
+}
