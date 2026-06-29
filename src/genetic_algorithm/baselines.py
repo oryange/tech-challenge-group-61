@@ -31,7 +31,6 @@ from fitness import (
     VEICULO_PADRAO,
     PesosFitness,
     ParametrosVeiculo,
-    calcular_fitness,
 )
 from genetic_algorithm.vrp import cromossomo_para_rotas, fitness_vrp
 
@@ -97,13 +96,17 @@ def vizinho_mais_proximo(
     """
     Algoritmo guloso do vizinho mais próximo para VRP.
 
-    Constrói a rota de cada veículo iterativamente: partindo do depósito,
-    sempre visita a parada não atendida mais próxima da posição atual,
-    respeitando capacidade e autonomia. Quando um veículo esgota sua
-    capacidade ou autonomia, o próximo assume do depósito.
+    Define a ORDEM de visita: partindo do depósito, sempre visita a parada
+    não atendida mais próxima da posição atual, usando capacidade e autonomia
+    apenas para decidir quando iniciar a varredura do próximo veículo.
 
-    É determinístico e rápido, mas tende a produzir rotas ~20-25% piores
-    que o ótimo global — o GA deve superá-lo claramente.
+    A partição final entre veículos é feita pelo mesmo decodificador do GA
+    (cromossomo_para_rotas), garantindo uma comparação justa: tanto o GA
+    quanto o greedy são avaliados com a mesma lógica de divisão de frota —
+    o que difere é apenas a ORDEM em que as paradas aparecem.
+
+    É determinístico e rápido, mas toma decisões localmente ótimas que podem
+    ser globalmente ruins (ex.: vai ao ponto mais próximo ignorando prioridade).
     """
     idx = df.set_index("id")
     ids_restantes = set(df[df["tipo"] != "deposito"]["id"].tolist())
