@@ -96,8 +96,14 @@ def gerar_pontos(n: int = 30) -> pd.DataFrame:
     registros = []
     for i, tipo in enumerate(tipos_escolhidos):
         meta = TIPOS[tipo]
-        inicio = HORARIO_INICIO_BASE[tipo]
-        fim = min(inicio + meta["janela_h"], 22)
+        if tipo == "emergencia_obstetrica":
+            # Atendimento imediato — pode ser feito a qualquer hora do dia.
+            # Janela = dia operacional inteiro, evitando penalidade de janela
+            # indevida (emergência não tem horário "errado" para ser atendida).
+            inicio, fim = 0, 23
+        else:
+            inicio = HORARIO_INICIO_BASE[tipo]
+            fim = min(inicio + meta["janela_h"], 22)
 
         # Variação realista no tempo de serviço por tipo
         tempo_base = {"emergencia_obstetrica": 45, "violencia_domestica": 60,
@@ -117,7 +123,7 @@ def gerar_pontos(n: int = 30) -> pd.DataFrame:
             "latitude": ponto["latitude"],
             "longitude": ponto["longitude"],
             "demanda_kg": round(meta["demanda_kg"] + rng.uniform(-0.2, 0.2), 2),
-            "janela_horas": meta["janela_h"],
+            "janela_horas": fim - inicio,
             "horario_inicio": inicio,
             "horario_fim": fim,
             "protocolo": PROTOCOLOS[tipo],

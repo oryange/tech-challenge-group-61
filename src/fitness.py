@@ -45,7 +45,9 @@ class PesosFitness:
     Alterar esses valores gera experimentos diferentes — conforme exigido
     pelo enunciado (mínimo 3 experimentos com configurações distintas).
     """
-    prioridade: float = 50.0    # penalidade por postergar emergências
+    prioridade: float = 120.0   # penalidade por postergar emergências
+                                # (peso alto o bastante para colocar emergências
+                                #  no início da rota, superando o termo de distância)
     janela: float = 30.0        # penalidade por violar janela de horário
     capacidade: float = 100.0   # penalidade por exceder capacidade
     autonomia: float = 80.0     # penalidade por exceder autonomia do veículo

@@ -1,8 +1,8 @@
 id,nome,tipo,prioridade,latitude,longitude,demanda_kg,janela_horas,horario_inicio,horario_fim,protocolo,tempo_servico_min
 0,Hospital_Base,deposito,0,-23.5505,-46.6333,0.0,24,0,23,base,0
-5,Ponto_05_EMER,emergencia_obstetrica,1,-23.459071,-46.667056,1.92,1,0,1,atendimento_imediato,55
-18,Ponto_18_EMER,emergencia_obstetrica,1,-23.654806,-46.574404,1.98,1,0,1,atendimento_imediato,54
-28,Ponto_28_EMER,emergencia_obstetrica,1,-23.552303,-46.684342,1.86,1,0,1,atendimento_imediato,52
+5,Ponto_05_EMER,emergencia_obstetrica,1,-23.459071,-46.667056,1.92,23,0,23,atendimento_imediato,55
+18,Ponto_18_EMER,emergencia_obstetrica,1,-23.654806,-46.574404,1.98,23,0,23,atendimento_imediato,54
+28,Ponto_28_EMER,emergencia_obstetrica,1,-23.552303,-46.684342,1.86,23,0,23,atendimento_imediato,52
 9,Ponto_09_VIOL,violencia_domestica,2,-23.666141,-46.582779,1.49,2,8,10,protocolo_discreto,55
 16,Ponto_16_VIOL,violencia_domestica,2,-23.650408,-46.776486,1.34,2,8,10,protocolo_discreto,70
 26,Ponto_26_VIOL,violencia_domestica,2,-23.570872,-46.595107,1.53,2,8,10,protocolo_discreto,58
