@@ -11,17 +11,18 @@ Solução para otimização logística hospitalar usando **algoritmos genéticos
 
 ```
 tech-challenge-group-61/
-├── data/                        # Dados de localização das unidades hospitalares
+├── data/                        # Dados sintéticos (pontos.csv) + mapa.html
 ├── notebooks/
-│   ├── 01_eda_rotas.ipynb       # Análise exploratória dos pontos de entrega
-│   ├── 02_algoritmo_genetico.ipynb  # Implementação e experimentos do AG
-│   ├── 03_llm_integracao.ipynb  # Integração com LLM para relatórios
-│   └── relatorio-tecnico.ipynb  # Relatório técnico completo
+│   └── experimentos.ipynb       # 3 experimentos do AG + comparativo com baselines
 ├── src/
-│   ├── genetic_algorithm/       # Implementação do algoritmo genético
+│   ├── gerar_dados.py           # Gerador de dados sintéticos
+│   ├── fitness.py               # Função de fitness VRP
+│   ├── genetic_algorithm/       # Algoritmo genético (vrp.py) + baselines
 │   ├── llm/                     # Integração com LLM local (Hugging Face)
-│   └── visualization/           # Visualização de rotas em mapas
-└── tests/                       # Testes automatizados
+│   └── visualization/           # Visualização de rotas em mapas (Folium)
+├── docs/                        # Relatório técnico + diagrama de arquitetura
+├── app.py                       # Interface Streamlit
+└── tests/                       # Testes automatizados (110 testes)
 ```
 
 ---

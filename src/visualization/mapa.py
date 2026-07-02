@@ -79,19 +79,30 @@ def _adicionar_legenda(mapa: folium.Map) -> None:
     mapa.get_root().html.add_child(folium.Element(legenda))
 
 
+# Paleta para diferenciar as rotas de cada veículo (uma cor por veículo)
+_CORES_VEICULO = [
+    "#2c3e50", "#e67e22", "#16a085", "#8e44ad", "#c0392b",
+    "#2980b9", "#d35400", "#27ae60", "#7f8c8d", "#f39c12",
+]
+
+
 def criar_mapa(
     df: pd.DataFrame,
     rota: Optional[List[int]] = None,
+    rotas: Optional[List[List[int]]] = None,
     zoom: int = 12,
 ) -> folium.Map:
     """
     Cria um mapa interativo com os pontos de atendimento.
 
     Args:
-        df:   DataFrame gerado por gerar_dados.py
-        rota: lista opcional de IDs na ordem de visita. Se fornecida, desenha
-              a rota como linha (depósito → pontos → depósito).
-        zoom: nível de zoom inicial do mapa.
+        df:    DataFrame gerado por gerar_dados.py
+        rota:  lista opcional de IDs na ordem de visita (uma única rota).
+               Se fornecida, desenha a rota como linha (depósito → pontos → depósito).
+        rotas: lista opcional de sub-rotas por veículo. Se fornecida, desenha
+               cada veículo com uma cor distinta (depósito → pontos → depósito).
+               Tem precedência sobre `rota`.
+        zoom:  nível de zoom inicial do mapa.
 
     Returns:
         folium.Map pronto para salvar ou exibir.
@@ -115,18 +126,26 @@ def criar_mapa(
             ),
         ).add_to(mapa)
 
-    # Desenha a rota, se fornecida
-    if rota:
-        idx = df.set_index("id")
-        sequencia = [0] + list(rota) + [0]  # parte e volta ao depósito
+    idx = df.set_index("id")
+
+    def _desenhar_rota(seq_ids: List[int], cor: str, rotulo: str) -> None:
+        sequencia = [0] + list(seq_ids) + [0]  # parte e volta ao depósito
         coords = [
             [idx.loc[pid, "latitude"], idx.loc[pid, "longitude"]]
             for pid in sequencia
         ]
         folium.PolyLine(
-            coords, color="#2c3e50", weight=3, opacity=0.7,
-            tooltip="Rota otimizada",
+            coords, color=cor, weight=3, opacity=0.8, tooltip=rotulo,
         ).add_to(mapa)
+
+    # Múltiplas rotas (uma por veículo) têm precedência
+    if rotas:
+        for i, sub in enumerate(rotas):
+            if sub:
+                cor = _CORES_VEICULO[i % len(_CORES_VEICULO)]
+                _desenhar_rota(sub, cor, f"Veículo {i + 1}")
+    elif rota:
+        _desenhar_rota(rota, "#2c3e50", "Rota otimizada")
 
     _adicionar_legenda(mapa)
     return mapa

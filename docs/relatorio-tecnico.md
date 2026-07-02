@@ -19,6 +19,10 @@ Todos os dados são **100% sintéticos** — nenhuma informação real de pacien
 
 ## 2. Arquitetura da Solução
 
+> Os diagramas em formato Mermaid (componentes, fluxo de dados e dependências
+> entre módulos) estão em [`docs/arquitetura.md`](arquitetura.md). O diagrama
+> abaixo resume o fluxo principal.
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                        app.py (Streamlit)                        │
@@ -133,7 +137,7 @@ fitness = distância_total_km
 | Componente | O que mede | Peso padrão |
 |---|---|---|
 | Distância | Km total percorrido (Haversine) | 1× |
-| Prioridade | Posição relativa de pontos urgentes na rota | 50× |
+| Prioridade | Posição relativa de pontos urgentes na rota | 120× |
 | Janela de horário | Horas de atraso fora da janela (dobrado para protocolo discreto) | 30× |
 | Capacidade | Excesso de kg acima da capacidade do veículo | 100× |
 | Autonomia | Excesso de km acima da autonomia do veículo | 80× |
@@ -155,6 +159,19 @@ O enunciado exige pelo menos 2 restrições além da distância. Implementamos *
 4. **Janelas de horário**: cada ponto tem horário de início e fim. Chegadas fora da janela geram penalidade proporcional ao atraso. Pontos com `protocolo_discreto` (violência doméstica) têm penalidade dobrada — chegada fora do horário comercial é especialmente prejudicial.
 
 5. **Múltiplos veículos (VRP)**: extensão direta do TSP base. A frota é configurável (padrão: 3 veículos).
+
+### 5.1 Protocolos de segurança implementados
+
+Cada tipo de atendimento carrega um protocolo de segurança próprio, aplicado tanto na modelagem quanto nas instruções geradas para a equipe de campo:
+
+| Tipo | Protocolo | Como é aplicado no sistema |
+|---|---|---|
+| Emergência obstétrica | `atendimento_imediato` | Prioridade máxima na fitness — atendida no início da rota |
+| Violência doméstica | `protocolo_discreto` | Penalidade de janela **dobrada** na fitness + instrução fixa (veículo sem identificação hospitalar, contato só por número seguro, sigilo perante terceiros) |
+| Medicamento hormonal | `cadeia_frio` | Janela a partir das 7h + instrução fixa de refrigeração/verificação de temperatura |
+| Acompanhamento pós-parto | `agendado` | Janela de horário comercial (confirmação de presença antes do deslocamento) |
+
+As instruções operacionais desses protocolos são **fixas no código** (`_INSTRUCOES_PROTOCOLO` em `src/llm/gerador.py`), nunca geradas pela LLM — garantindo que procedimentos sensíveis (especialmente o de violência doméstica) não sejam alterados por alucinação do modelo.
 
 ---
 
@@ -183,9 +200,9 @@ Comparamos o GA com dois baselines clássicos usando os mesmos dados (30 pontos,
 
 | Abordagem | Fitness | Melhora vs GA | Tempo |
 |---|---|---|---|
-| Rota aleatória | 6.790 | GA 59% melhor | < 0,01s |
-| Vizinho mais próximo (greedy) | 4.677 | GA 41% melhor | < 0,01s |
-| **Algoritmo Genético** (pop=100, 150 ger.) | **2.755** | referência | ~138s |
+| Rota aleatória | 8.156 | GA 56% melhor | < 0,01s |
+| Vizinho mais próximo (greedy) | 6.081 | GA 42% melhor | < 0,01s |
+| **Algoritmo Genético** (pop=100, 150 ger.) | **3.556** | referência | ~91s |
 
 O **vizinho mais próximo** é a abordagem gulosa clássica para TSP/VRP: rápido e determinístico, mas toma decisões localmente ótimas que podem ser globalmente ruins (ex: visitar um ponto próximo de baixa prioridade antes de uma emergência distante). O GA, ao explorar o espaço global de soluções via evolução, encontra ordenações que o greedy não consegue.
 
@@ -201,42 +218,56 @@ Realizamos 3 experimentos variando configurações do GA. Resultados completos c
 
 | Configuração | Fitness final | Melhora | Tempo |
 |---|---|---|---|
-| Pop = 50  | 2811.65 | 33.1% | 70s  |
-| Pop = 100 | 2755.71 | 34.5% | 138s |
-| Pop = 200 | 2666.80 | 36.6% | 276s |
+| Pop = 50  | 3948.70 | 27.5% | 44s  |
+| Pop = 100 | 3555.60 | 34.7% | 91s  |
+| Pop = 200 | 3454.19 | 36.5% | 179s |
 
-Pop 200 produz a melhor solução (+1.5 pp sobre Pop 100) ao custo de 2× mais tempo. Para uso interativo no app Streamlit, Pop 100 oferece o melhor equilíbrio qualidade × tempo. Pop 50 converge mais rápido mas fica preso em ótimos locais com mais frequência.
+Pop 200 produz a melhor solução (+1.8 pp sobre Pop 100) ao custo de 2× mais tempo. Para uso interativo no app Streamlit, Pop 100 oferece o melhor equilíbrio qualidade × tempo. Pop 50 converge mais rápido mas fica preso em ótimos locais com mais frequência (melhora de apenas 27.5%).
 
 **Experimento 2 — Taxas de mutação:**
 
 | Configuração | Fitness final | Melhora | Tempo |
 |---|---|---|---|
-| Swap=0.05 Inv=0.00 (baixa)       | 2822.84 | 32.9% | 139s |
-| Swap=0.30 Inv=0.10 (padrão)      | 2755.71 | 34.5% | 138s |
-| Swap=0.60 Inv=0.30 (alta)        | **2602.51** | **38.1%** | 138s |
-| Swap=0.30 Inv=0.30 (inv. forte)  | 2899.57 | 31.0% | 138s |
+| Swap=0.05 Inv=0.00 (baixa)       | 3941.57 | 27.6% | 91s |
+| Swap=0.30 Inv=0.10 (padrão)      | 3555.60 | 34.7% | 90s |
+| Swap=0.60 Inv=0.30 (alta)        | 3562.34 | 34.6% | 91s |
+| Swap=0.30 Inv=0.30 (inv. forte)  | **3538.81** | **35.0%** | 89s |
 
-Resultado surpreendente: a mutação alta (swap=0.60 + inversão=0.30) produziu o melhor fitness (2602.51), contrariando parcialmente a hipótese inicial. A maior diversidade permitiu escapar de ótimos locais neste espaço de busca de 30 pontos. Por outro lado, elevar apenas a inversão (inv. forte) piorou os resultados — inversão excessiva desfaz sub-rotas já bem organizadas. A taxa baixa confirmou a hipótese de convergência prematura.
+O resultado mais nítido é o da **taxa baixa** (swap=0.05, sem inversão): fitness 3941.57, claramente o pior, confirmando a hipótese de convergência prematura — pouca diversidade prende a população em ótimos locais. As três configurações com maior diversidade (padrão, alta e inversão forte) ficam **praticamente empatadas** (3538–3562, spread < 1%), com a inversão forte marginalmente à frente. A leitura é que, acima de um limiar mínimo de diversidade, o ganho satura para este espaço de busca de 30 pontos: o que importa é *ter* diversidade suficiente, não maximizá-la. A configuração padrão (swap=0.30, inv=0.10) foi mantida por oferecer resultado equivalente ao melhor com menor risco de instabilidade.
 
 **Experimento 3 — Restrições de negócio:**
 
 | Cenário | Fitness final | Melhora | Tempo |
 |---|---|---|---|
-| A: Baseline (3v, 40km/h, w_prior=50)   | 2755.71  | 34.5% | 142s |
-| B: Prioridade máx. (w_prior=250)       | 7165.04  | 23.8% | 140s |
-| C: Frota reduzida (2 veículos)         | 4273.53  | 68.6% | 124s |
-| D: Veículo lento (20km/h, w_jan=150)   | 12116.01 | 38.8% | 138s |
+| A: Baseline (3v, 40km/h, w_prior=120)  | 3555.60 | 34.7% | 91s |
+| B: Prioridade máx. (w_prior=250)       | 6342.96 | 27.2% | 89s |
+| C: Frota reduzida (2 veículos)         | 4893.30 | 65.6% | 81s |
+| D: Veículo lento (20km/h, w_jan=150)   | 7298.33 | 53.2% | 92s |
 
 Análise da posição média das emergências obstétricas na rota principal:
 
 | Cenário | Posição média emergências |
 |---|---|
-| A: Baseline         | 0.0 / 11 paradas — sempre primeiro |
+| A: Baseline         | 3.0 / 10 paradas — início da rota |
 | B: Prioridade máx.  | 0.0 / 10 paradas — sempre primeiro |
-| C: Frota reduzida   | 10.0 / 14 paradas — postergadas pela restrição de capacidade |
-| D: Veículo lento    | sem emergências na rota principal |
+| C: Frota reduzida   | sem emergências na rota principal — distribuídas entre veículos |
+| D: Veículo lento    | 9.0 / 11 paradas — postergadas pelo peso alto de janela |
 
-Os cenários A e B colocam emergências na posição 0 (início absoluto da rota), confirmando que o GA aprende a respeitar a prioridade mesmo com pesos diferentes. O fitness absoluto do cenário B é maior porque penalidades de posição passam a valer 250× em vez de 50×, mas operacionalmente o resultado é equivalente. O cenário C ilustra o conflito entre restrições: com apenas 2 veículos, a capacidade limitada empurra emergências para posições tardias — demonstrando que aumentar a frota é essencial em contextos de alta demanda urgente.
+Com o peso de prioridade padrão (120×), o cenário A já coloca as emergências no início da rota (posição média 3.0/10); elevar o peso para 250× (cenário B) leva-as à posição 0 absoluta, ao custo de fitness maior (as penalidades de posição valem mais). O cenário C mostra o efeito da restrição de frota: com apenas 2 veículos, o decodificador distribui as emergências entre os veículos e elas não se concentram na rota principal. O cenário D é o mais revelador do trade-off entre restrições: com veículo lento (20 km/h) **e** peso de janela alto (150×), a conformidade de janela passa a dominar a fitness e empurra as emergências para o fim da rota principal (posição 9.0/11) — evidenciando que, quando o veículo é lento, priorizar urgência e cumprir janelas de horário entram em conflito direto, e a escolha dos pesos define qual objetivo prevalece.
+
+---
+
+## 8.1 Análise de Impacto — Tempo de Resposta em Emergências
+
+O indicador operacional mais crítico do domínio não é o fitness abstrato, e sim **quanto tempo a equipe leva para chegar a uma emergência obstétrica**. Simulamos o horário de chegada a partir da saída do hospital-base às 8h (deslocamento via Haversine ÷ velocidade + tempo de serviço em cada parada), medindo cada emergência dentro da rota do seu veículo. Comparativo com as mesmas rotas otimizadas da seção 7:
+
+| Abordagem | 1ª emergência | Tempo médio | Última emergência |
+|---|---|---|---|
+| Rota aleatória | 269,4 min | 358,9 min | 466,6 min |
+| Vizinho mais próximo (greedy) | 7,8 min | 154,1 min | 296,4 min |
+| **Algoritmo Genético** | **16,1 min** | 156,8 min | **262,4 min** |
+
+O GA atende a primeira emergência em ~16 minutos, contra **~4,5 horas** da rota aleatória — uma redução de mais de 90% no tempo de resposta, com impacto direto na segurança da paciente. O greedy chega à *primeira* emergência ligeiramente mais rápido (7,8 min), mas por acaso geográfico: ele não prioriza urgência, apenas segue o ponto mais próximo. Isso se reflete em (a) fitness global muito pior (6.081 vs 3.556, ver §7), pois ignora janelas, capacidade e a prioridade dos demais pontos; e (b) tempo maior até a *última* emergência (296 vs 262 min). O GA equilibra atender emergências cedo **e** manter a rota globalmente eficiente — exatamente o comportamento desejado quando há múltiplas urgências concorrendo com outras restrições.
 
 ---
 
@@ -282,6 +313,6 @@ tech-challenge-group-61/
 └── requirements.txt
 ```
 
-**Ambiente:** Python 3.12, venv, dependências em `requirements.txt`.  
+**Ambiente:** Python 3.13, venv, dependências em `requirements.txt`.  
 **Testes:** `pytest tests/ -v` — 110 testes cobrindo todos os módulos.  
 **App:** `streamlit run app.py` (instalar streamlit do PyPI público).

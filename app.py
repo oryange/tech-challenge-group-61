@@ -62,7 +62,7 @@ with st.sidebar:
     seed       = st.number_input("Seed (reprodutibilidade)", 0, 9999, 42)
 
     st.subheader("Pesos da Fitness")
-    w_prior = st.slider("Peso prioridade", 0.0, 200.0, 50.0, step=10.0)
+    w_prior = st.slider("Peso prioridade", 0.0, 300.0, 120.0, step=10.0)
     w_jan   = st.slider("Peso janela de horário", 0.0, 200.0, 30.0, step=10.0)
     w_cap   = st.slider("Peso capacidade", 0.0, 500.0, 100.0, step=20.0)
     w_aut   = st.slider("Peso autonomia", 0.0, 500.0, 80.0, step=20.0)
@@ -121,12 +121,12 @@ with aba_mapa:
             mapa_inicial = criar_mapa(df)
             st.components.v1.html(mapa_inicial._repr_html_(), height=500, scrolling=False)
         else:
-            # Mostra rotas otimizadas — usa a primeira rota não-vazia para exibição simples
+            # Mostra rotas otimizadas — cada veículo com uma cor distinta
             rotas = st.session_state["rotas_resultado"]
-            rota_display = [p for r in rotas for p in r]
-            mapa_otim = criar_mapa(df, rota=rota_display)
+            mapa_otim = criar_mapa(df, rotas=rotas)
             st.components.v1.html(mapa_otim._repr_html_(), height=500, scrolling=False)
-            st.caption("Rota exibida: sequência unificada de todos os veículos.")
+            n_ativos = sum(1 for r in rotas if r)
+            st.caption(f"Rotas exibidas: {n_ativos} veículo(s), cada um com uma cor distinta.")
 
 # ---------------------------------------------------------------------------
 # Executar GA
@@ -297,12 +297,20 @@ with aba_llm:
             df_dados = st.session_state["df"]
             rota_v1  = rotas[0] if rotas else []
 
+            # As funções da LLM esperam um DataFrame com as LINHAS da rota
+            # (na ordem de visita), não a lista de IDs. Converte aqui.
+            idx_dados = df_dados.set_index("id")
+            df_rota_v1 = (
+                idx_dados.loc[rota_v1].reset_index()
+                if rota_v1 else df_dados.iloc[0:0]
+            )
+
             col_btn1, col_btn2 = st.columns(2)
             with col_btn1:
                 if st.button("📋 Gerar roteiro do dia"):
                     with st.spinner("Gerando roteiro…"):
                         try:
-                            roteiro = gerar_roteiro(rota_v1, df_dados)
+                            roteiro = gerar_roteiro(df_rota_v1)
                             st.markdown("**Roteiro — Veículo 1**")
                             st.text(roteiro)
                         except Exception as e:
@@ -312,7 +320,10 @@ with aba_llm:
                 if st.button("📊 Gerar relatório resumo"):
                     with st.spinner("Gerando relatório…"):
                         try:
-                            relatorio = gerar_relatorio_resumo(rota_v1, df_dados)
+                            relatorio = gerar_relatorio_resumo(
+                                df_rota_v1,
+                                fitness=st.session_state.get("melhor_fitness"),
+                            )
                             st.markdown("**Relatório**")
                             st.text(relatorio)
                         except Exception as e:
@@ -327,7 +338,7 @@ with aba_llm:
             if st.button("Enviar pergunta") and pergunta:
                 with st.spinner("Consultando LLM…"):
                     try:
-                        resposta = responder_pergunta(pergunta, rota_v1, df_dados)
+                        resposta = responder_pergunta(pergunta, df_rota_v1)
                         st.markdown(f"**Resposta:** {resposta}")
                     except Exception as e:
                         st.error(f"Erro: {e}")
