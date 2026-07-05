@@ -1,0 +1,19 @@
+app.py
+  s_93af42751051fb::t_baf09436e28a12 308,320-330
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "df46a231a5ac6299d98b41d2c75dc44e49cea453",
+  "prompts": {},
+  "sessions": {
+    "s_93af42751051fb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9271bb69-a6d2-4fcf-8d4e-51c6b33c8ee5",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "ostrifezze_meli <oryange.strifezze@mercadolivre.com>"
+    }
+  }
+}
