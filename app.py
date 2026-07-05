@@ -305,7 +305,7 @@ with aba_llm:
                 if rota_v1 else df_dados.iloc[0:0]
             )
 
-            col_btn1, col_btn2 = st.columns(2)
+            col_btn1, col_btn2, col_btn3 = st.columns(3)
             with col_btn1:
                 if st.button("📋 Gerar roteiro do dia"):
                     with st.spinner("Gerando roteiro…"):
@@ -317,6 +317,17 @@ with aba_llm:
                             st.error(f"Erro ao gerar roteiro: {e}")
 
             with col_btn2:
+                if st.button("📘 Gerar manual da equipe"):
+                    with st.spinner("Gerando manual…"):
+                        try:
+                            from llm.gerador import gerar_manual
+                            manual = gerar_manual(df_rota_v1)
+                            st.markdown("**Manual de Instruções — Equipe de Transporte**")
+                            st.text(manual)
+                        except Exception as e:
+                            st.error(f"Erro ao gerar manual: {e}")
+
+            with col_btn3:
                 if st.button("📊 Gerar relatório resumo"):
                     with st.spinner("Gerando relatório…"):
                         try:
