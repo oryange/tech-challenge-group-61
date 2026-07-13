@@ -1,0 +1,19 @@
+docs/relatorio-tecnico.md
+  s_f6f734ae600498::t_4905f667ec54d1 6-7
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.6",
+  "base_commit_sha": "b31019908c46f3b332c5c08fdb653f562bcf7f03",
+  "prompts": {},
+  "sessions": {
+    "s_f6f734ae600498": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cf4b387b-972d-4192-b783-6e4755821d7d",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "ostrifezze_meli <oryange.strifezze@mercadolivre.com>"
+    }
+  }
+}
