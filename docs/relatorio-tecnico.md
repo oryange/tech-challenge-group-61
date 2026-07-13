@@ -3,7 +3,8 @@
 
 **Grupo 61** | PosTech FIAP — Inteligência Artificial para Devs  
 **Projeto:** Projeto 2 — Otimização de Rotas Médicas  
-**Repositório:** https://github.com/oryange/tech-challenge-group-61
+**Repositório:** https://github.com/oryange/tech-challenge-group-61  
+**Vídeo de apresentação:** https://www.youtube.com/watch?v=3SJ39li3V6Y
 
 ---
 
